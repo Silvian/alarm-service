@@ -1,0 +1,65 @@
+{% extends "alarm/layout.html" %}
+
+{% block heading %}
+
+  <div>
+    <br/>
+    <h2><i class="fa fa-users fa-fw" aria-hidden="true"></i> Users</h2>
+  </div>
+
+{% endblock %}
+
+{% block body %}
+
+  <div class="container">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-md" style="float:right" id="add-user-button">
+        <i class="fa fa-users fa-fw"></i> New User
+    </button>
+
+  </div>
+
+  <br/>
+
+  <div id="users-empty" class="alert alert-info" role="alert" hidden>
+      <i class="fa fa-info fa-fw" aria-hidden="true"></i>
+      No users have been created yet. Start by adding a new user.
+  </div>
+
+  <div id="users-error" class="alert alert-danger" role="alert" hidden>
+      <i class="fa fa-exclamation-circle fa-fw" aria-hidden="true"></i>
+      <span id="error-msg">Error:</span>
+  </div>
+
+  <div class="well">
+
+      <table class="table table-striped table-hover" id="users-list">
+      <thead>
+        <tr>
+          <th>User name</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+  </div>
+
+{% include "alarm/modals/user_modal.html" %}
+
+{% include "alarm/modals/delete_modal.html" %}
+
+{% endblock %}
+
+{% block jsfiles %}
+
+{% load staticfiles %}
+<script src="{% static 'resources/js/alarm.js' %}"></script>
+<script src="{% static 'resources/js/alarm-users.js' %}"></script>
+
+{% endblock %}

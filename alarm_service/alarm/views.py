@@ -9,3 +9,8 @@ from django.shortcuts import render
 @login_required
 def index_view(request):
     return render(request, "alarm/index.html")
+
+
+@login_required
+def users_view(request):
+    return render(request, "alarm/users.html")
