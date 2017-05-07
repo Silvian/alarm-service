@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 
@@ -5,5 +6,6 @@ from django.shortcuts import render
 
 
 # Index render view
+@login_required
 def index_view(request):
     return render(request, "alarm/index.html")

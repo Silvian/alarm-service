@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from alarm import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^authenticate/', include('authentication.urls', namespace="authenticate")),
     url(r'^alarm/', include('alarm.urls', namespace="alarm")),
     url(r'^api/', include('api.urls', namespace="api")),
+    url(r'^$', views.index_view, name="alarm"),
 ]
