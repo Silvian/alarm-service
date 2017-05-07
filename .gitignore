@@ -72,6 +72,19 @@ target/
 # pyenv
 .python-version
 
+# Pycharm/IntelliJ
+.idea/
+
+# Ignore anything in static/admin
+static/admin/
+
+# Do not add the settings file
+alarm_service/alarm_service/settings.py
+
+# Do not include the database file or configs
+db.*
+
+
 # celery beat schedule file
 celerybeat-schedule
 
