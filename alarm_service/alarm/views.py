@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+"""Views"""
+
+
+# Index render view
+def index_view(request):
+    return render(request, "alarm/index.html")

@@ -25,8 +25,26 @@ SECRET_KEY = 'secret-key-goes-here'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# SECURITY SETTINGS: ensure the below settings are turned on when running with SSL/TLS active
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
+ALLOWED_HOSTS = ['*']
+
+# Static files
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, 'static', ),
+)
 
 # Application definition
 
@@ -57,7 +75,9 @@ ROOT_URLCONF = 'alarm_service.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR + '/alarm/templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
