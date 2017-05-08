@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
@@ -46,3 +47,14 @@ class AlarmStateConfiguration(models.Model):
 
     def __str__(self):
         return self.alarm_name
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='user', null=False)
+    mobile = models.CharField(max_length=200, null=False, blank=False)
+
+    def publish(self):
+        self.save()
+
+    def __str__(self):
+        return self.user.name
