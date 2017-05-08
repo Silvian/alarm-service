@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Log, AlarmStateConfiguration
+
+admin.site.register(AlarmStateConfiguration)
+admin.site.register(Log)
