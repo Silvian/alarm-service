@@ -52,7 +52,6 @@ class AlarmStateConfiguration(models.Model):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, related_name='user', null=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     email = models.CharField(max_length=200, null=False, blank=False)
     mobile = models.CharField(max_length=200, null=False, blank=False)

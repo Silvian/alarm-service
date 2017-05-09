@@ -53,7 +53,7 @@ function getUsers() {
                     var user = item.fields;
                     $('#users-list tbody').append('<tr>' +
                         '<td><a id="view-'+ htmlEntities(item.pk) +'" href="#">' + htmlEntities(user.name) + '</a></td>' +
-                        '<td>' + htmlEntities(user.email) + '</td>' +
+                        '<td>' + getEmailLink(htmlEntities(user.email)) + '</td>' +
                         '<td>' + htmlEntities(user.mobile) + '</td>' +
                         '<td><button type="button" class="btn btn-danger btn-sm" id="remove-'+ htmlEntities(item.pk) +'"><i class="fa fa-trash fa-fw"></i></td>' +
                     '</tr>');
@@ -82,10 +82,10 @@ function saveUser() {
         var id = null;
         if($('#user-id').val()!="") {
             id = $('#user-id').val();
-            url = '/alarm/users/update';
+            url = '/alarm/users/update/';
         }
         else {
-            url = '/alarm/users/add';
+            url = '/alarm/users/add/';
         }
 
         ecblockui();
@@ -146,7 +146,7 @@ function deleteUser(id) {
     ecblockui();
     $.ajax({
         type: 'POST',
-        url: '/alarm/users/delete',
+        url: '/alarm/users/delete/',
         dataType: 'json',
         data: {    id : id,
                    csrfmiddlewaretoken : getCookie('csrftoken')
@@ -170,6 +170,7 @@ function deleteUser(id) {
 
 function clearUserFields() {
 
+    $('#user-id').val("");
     $('#user-name').val("");
     $('#user-email').val("");
     $('#user-mobile').val("");
