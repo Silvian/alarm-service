@@ -20,6 +20,11 @@ def index_view(request):
 
 
 @login_required
+def logs_view(request):
+    return render(request, "alarm/logs.html")
+
+
+@login_required
 def users_view(request):
     return render(request, "alarm/users.html")
 
