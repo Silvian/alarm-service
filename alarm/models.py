@@ -40,7 +40,9 @@ class Log(models.Model):
 class AlarmStateConfiguration(models.Model):
     alarm_name = models.CharField(primary_key=True, max_length=20, null=False)
     alarm_state = models.CharField(max_length=1, choices=ALARM_STATUS)
-    client_state = models.CharField(max_length=1, choices=CLIENT_STATUS)
+    last_notified_time = models.DateTimeField(null=True, blank=True)
+    client_connected_state = models.CharField(max_length=1, choices=CLIENT_STATUS)
+    last_client_connected_time = models.DateTimeField(null=True, blank=True)
 
     def publish(self):
         self.save()
