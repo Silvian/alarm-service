@@ -1,6 +1,14 @@
-from django.conf.urls import url
-from . import views
+from django.conf.urls import url, include
+from rest_framework import routers
+from views import UserProfileViewSet
+
+
+""" Routers provide an easy way of automatically determining the URL conf. """
+
+
+router = routers.DefaultRouter()
+router.register(r'users', UserProfileViewSet)
 
 urlpatterns = [
-
+    url(r'^', include(router.urls)),
 ]

@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^authenticate/', include('authentication.urls', namespace="authenticate")),
     url(r'^alarm/', include('alarm.urls', namespace="alarm")),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('api.urls', namespace="api")),
     url(r'^$', views.index_view, name="alarm"),
 ]

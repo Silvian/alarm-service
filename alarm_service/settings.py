@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'authentication',
     'alarm',
     'api',
 ]
@@ -122,6 +124,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Django rest framework configurations
+# http://www.django-rest-framework.org/
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
