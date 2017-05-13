@@ -162,3 +162,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 LOGIN_URL = '/authenticate/login/'
 REDIRECT_URL = '/alarm/'
+
+# Date time string config
+
+DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'

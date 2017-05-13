@@ -38,7 +38,7 @@ class Log(models.Model):
         self.save()
 
     def __str__(self):
-        return self.time_stamp
+        return self.time_stamp.strftime(settings.DATE_TIME_FORMAT)
 
 
 class AlarmStateConfiguration(models.Model):
