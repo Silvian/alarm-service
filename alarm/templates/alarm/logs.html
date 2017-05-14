@@ -11,10 +11,41 @@
 
 {% block body %}
 
-  <div class="jumbotron">
-    <div class="container">
-      <p>Alarm System Logs</p>
-    </div>
+  <div class="container">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-md" id="select-date">
+        <i class="fa fa-calendar fa-fw"></i> Log date
+    </button>
+
   </div>
+
+  <br/>
+
+  <div class="well">
+
+      <table class="table table-striped table-hover" id="logs-list">
+      <thead>
+        <tr>
+          <th>Date/time</th>
+          <th>Door state</th>
+          <th>Alarm state</th>
+          <th>Client state</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+  </div>
+
+{% endblock %}
+
+{% block jsfiles %}
+
+{% load staticfiles %}
+<script src="{% static 'resources/js/alarm.js' %}"></script>
+<script src="{% static 'resources/js/alarm-logs.js' %}"></script>
 
 {% endblock %}

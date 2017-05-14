@@ -1,3 +1,18 @@
+function getFormattedDate(date) {
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var year = date.getFullYear();
+    var input = month + "/" + day + "/" + year;
+
+    var pattern=/(.*?)\/(.*?)\/(.*?)$/;
+    var result = input.replace(pattern, function(match, p1, p2, p3) {
+        var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return (p2<10?"0"+p2:p2)+" "+months[(p1-1)]+" "+p3;
+    });
+
+    return result;
+}
+
 function getEmailLink(email) {
     return '<a href="mailto:'+email+'">'+email+'</a>';
 }
@@ -65,4 +80,40 @@ function getURLParameter(sParam){
 			return sParameterName[1];
 		}
 	}
+}
+
+function doorState(state) {
+
+    if(state === "1") {
+        return "Closed";
+    }
+
+    else if(state === "0") {
+        return "Open";
+    }
+
+}
+
+function alarmState(state) {
+
+    if(state === "1") {
+        return "On";
+    }
+
+    else if(state === "0") {
+        return "Off";
+    }
+
+}
+
+function clientState(state) {
+
+    if(state === "1") {
+        return "Connected";
+    }
+
+    else if(state === "0") {
+        return "Disconnected";
+    }
+
 }
