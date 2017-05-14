@@ -15,7 +15,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class LogSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Log
-        fields = ('time_stamp', 'door_state', 'alarm_state', 'client_state')
+        fields = ('time_stamp', 'door_state')
 
 
 class AlarmStateConfigurationSerializer(serializers.HyperlinkedModelSerializer):

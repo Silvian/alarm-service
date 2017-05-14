@@ -166,3 +166,6 @@ REDIRECT_URL = '/alarm/'
 # Date time string config
 
 DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+# primary alarm name
+ALARM_NAME = 'primary'

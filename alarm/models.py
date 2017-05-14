@@ -1,12 +1,11 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
 from django.db import models
-from django.utils import timezone
 
 """Alarm models"""
 
@@ -26,21 +25,6 @@ CLIENT_STATUS = (
 )
 
 
-class Log(models.Model):
-
-    time_stamp = models.DateTimeField()
-    door_state = models.CharField(max_length=1, choices=DOOR_STATUS)
-    alarm_state = models.CharField(max_length=1, choices=ALARM_STATUS, null=True, blank=True)
-    client_state = models.CharField(max_length=1, choices=CLIENT_STATUS, null=True, blank=True)
-
-    def publish(self):
-        self.time_stamp = timezone.now()
-        self.save()
-
-    def __str__(self):
-        return self.time_stamp.strftime(settings.DATE_TIME_FORMAT)
-
-
 class AlarmStateConfiguration(models.Model):
     alarm_name = models.CharField(primary_key=True, max_length=20, null=False)
     alarm_state = models.CharField(max_length=1, choices=ALARM_STATUS)
@@ -53,6 +37,20 @@ class AlarmStateConfiguration(models.Model):
 
     def __str__(self):
         return self.alarm_name
+
+
+class Log(models.Model):
+
+    time_stamp = models.DateTimeField()
+    door_state = models.CharField(max_length=1, choices=DOOR_STATUS)
+    alarm_state = models.CharField(max_length=1, choices=ALARM_STATUS, blank=True)
+    client_state = models.CharField(max_length=1, choices=CLIENT_STATUS, blank=True)
+
+    def publish(self):
+        self.save()
+
+    def __str__(self):
+        return self.time_stamp.strftime(settings.DATE_TIME_FORMAT)
 
 
 class UserProfile(models.Model):
@@ -71,3 +69,12 @@ class UserProfile(models.Model):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+@receiver(pre_save)
+def set_alarm_states(sender, instance, *args, **kwargs):
+    instance.alarm_state = AlarmStateConfiguration.objects.get(
+                                alarm_name=settings.ALARM_NAME).alarm_state
+
+    instance.client_state = AlarmStateConfiguration.objects.get(
+                                alarm_name=settings.ALARM_NAME).client_connected_state
