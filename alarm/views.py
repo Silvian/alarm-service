@@ -1,11 +1,12 @@
 import json
+import datetime
 from django.http import HttpResponse
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 
 from alarm.forms import UserProfileForm
-from alarm.models import UserProfile
+from alarm.models import UserProfile, Log
 
 
 """Views"""
@@ -72,3 +73,21 @@ def delete_user(request):
         user = UserProfile.objects.get(pk=request.POST['id'])
         user.delete()
         return HttpResponse(json.dumps(SUCCESS_RESPONSE), content_type='application/json')
+
+
+@login_required
+def get_logs_today(request):
+    if request.is_ajax:
+        logs = Log.objects.filter(time_stamp__date=datetime.date.today())
+        data = serializers.serialize("json", logs)
+        return HttpResponse(data,
+                            content_type='application/json')
+
+
+@login_required
+def get_logs_date(request):
+    if request.is_ajax:
+        logs = Log.objects.filter(time_stamp__date=request.GET['date'])
+        data = serializers.serialize("json", logs)
+        return HttpResponse(data,
+                            content_type='application/json')

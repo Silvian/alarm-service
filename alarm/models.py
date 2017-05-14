@@ -30,8 +30,8 @@ class Log(models.Model):
 
     time_stamp = models.DateTimeField()
     door_state = models.CharField(max_length=1, choices=DOOR_STATUS)
-    alarm_state = models.CharField(max_length=1, choices=ALARM_STATUS)
-    client_state = models.CharField(max_length=1, choices=CLIENT_STATUS)
+    alarm_state = models.CharField(max_length=1, choices=ALARM_STATUS, null=True, blank=True)
+    client_state = models.CharField(max_length=1, choices=CLIENT_STATUS, null=True, blank=True)
 
     def publish(self):
         self.time_stamp = timezone.now()

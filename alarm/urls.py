@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^users/update/', views.update_user, name='update_user'),
     url(r'^users/delete/', views.delete_user, name='delete_user'),
     url(r'^users/', views.users_view, name='users'),
+    url(r'^logs/get/today/', views.get_logs_today, name='today_logs'),
+    url(r'^logs/get', views.get_logs_date, name='date_logs'),
     url(r'^logs/', views.logs_view, name='logs'),
     url(r'^$', views.index_view, name='dashboard'),
 ]
