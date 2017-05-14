@@ -13,6 +13,31 @@ function getFormattedDate(date) {
     return result;
 }
 
+function getFormattedDateAndTime(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var year = date.getFullYear();
+    var input = month + "/" + day + "/" + year;
+
+    var pattern=/(.*?)\/(.*?)\/(.*?)$/;
+    var result = input.replace(pattern, function(match, p1, p2, p3) {
+        var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return (p2<10?"0"+p2:p2)+" "+months[(p1-1)]+" "+p3;
+    });
+
+    result = result + " - " + strTime;
+
+    return result;
+}
+
 function getEmailLink(email) {
     return '<a href="mailto:'+email+'">'+email+'</a>';
 }

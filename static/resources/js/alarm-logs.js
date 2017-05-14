@@ -10,7 +10,7 @@ $(document).ready(function(){
     },
         'columns': [
             {"mRender": function(data, type, row) {
-                            return getFormattedDate(new Date(htmlEntities(row.time_stamp)));
+                            return getFormattedDateAndTime(new Date(htmlEntities(row.time_stamp)));
                         }
             },
             {"mRender": function(data, type, row) {
