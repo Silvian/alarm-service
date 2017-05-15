@@ -5,6 +5,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from alerts import SMSAlert
+import datetime
 
 from django.db import models
 
@@ -32,6 +33,7 @@ class AlarmStateConfiguration(models.Model):
     last_notified_time = models.DateTimeField(null=True, blank=True)
     client_connected_state = models.CharField(max_length=1, choices=CLIENT_STATUS)
     last_client_connected_time = models.DateTimeField(null=True, blank=True)
+    alarm_message = models.TextField(null=True, blank=True)
 
     def publish(self):
         self.save()
@@ -66,6 +68,19 @@ class UserProfile(models.Model):
         return self.name
 
 
+def send_alerts_to_users(alarm_state, client_state):
+
+    if alarm_state == '1' or client_state == '0':
+        alert = SMSAlert()
+        users = UserProfile.objects.all()
+        for user in users:
+            alert.send_alert(AlarmStateConfiguration.objects.get(
+                alarm_name=settings.ALARM_NAME).alarm_message, user.mobile)
+
+        AlarmStateConfiguration.objects.get(
+            alarm_name=settings.ALARM_NAME).last_notified_time = datetime.time()
+
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
@@ -73,13 +88,11 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 
 @receiver(pre_save)
-def set_alarm_states(sender, instance, *args, **kwargs):
+def set_alarm_states(sender,instance, *args, **kwargs):
     instance.alarm_state = AlarmStateConfiguration.objects.get(
                                 alarm_name=settings.ALARM_NAME).alarm_state
 
     instance.client_state = AlarmStateConfiguration.objects.get(
                                 alarm_name=settings.ALARM_NAME).client_connected_state
 
-    alert = SMSAlert()
-    alert.send_alert('', '')
-
+    send_alerts_to_users(instance.alarm_state, instance.client_state)
