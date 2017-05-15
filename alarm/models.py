@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from alerts import SMSAlert
 
 from django.db import models
 
@@ -78,3 +79,7 @@ def set_alarm_states(sender, instance, *args, **kwargs):
 
     instance.client_state = AlarmStateConfiguration.objects.get(
                                 alarm_name=settings.ALARM_NAME).client_connected_state
+
+    alert = SMSAlert()
+    alert.send_alert('', '')
+

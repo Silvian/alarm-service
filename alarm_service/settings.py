@@ -169,3 +169,12 @@ DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 # primary alarm name
 ALARM_NAME = 'primary'
+
+# SMS Message service API
+# https://textbelt.com
+
+# Textbelt API Settings FOR TEST ONLY
+# WARNING: Do not use these in production
+SMS_URL = 'http://textbelt.com/text'
+SMS_TOKEN = 'textbelt'
+
