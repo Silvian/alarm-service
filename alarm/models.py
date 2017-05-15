@@ -29,7 +29,7 @@ CLIENT_STATUS = (
 
 class AlarmStateConfiguration(models.Model):
     alarm_name = models.CharField(primary_key=True, max_length=20, null=False)
-    alarm_state = models.CharField(max_length=1, choices=ALARM_STATUS)
+    alarm_status = models.CharField(max_length=1, choices=ALARM_STATUS)
     last_notified_time = models.DateTimeField(null=True, blank=True)
     client_connected_state = models.CharField(max_length=1, choices=CLIENT_STATUS)
     last_client_connected_time = models.DateTimeField(null=True, blank=True)
@@ -77,9 +77,6 @@ def send_alerts_to_users(alarm_state, client_state):
             alert.send_alert(AlarmStateConfiguration.objects.get(
                 alarm_name=settings.ALARM_NAME).alarm_message, user.mobile)
 
-        AlarmStateConfiguration.objects.get(
-            alarm_name=settings.ALARM_NAME).last_notified_time = datetime.time()
-
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -90,9 +87,13 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 @receiver(pre_save)
 def set_alarm_states(sender,instance, *args, **kwargs):
     instance.alarm_state = AlarmStateConfiguration.objects.get(
-                                alarm_name=settings.ALARM_NAME).alarm_state
+                                alarm_name=settings.ALARM_NAME).alarm_status
 
     instance.client_state = AlarmStateConfiguration.objects.get(
                                 alarm_name=settings.ALARM_NAME).client_connected_state
+
+
+@receiver(post_save, sender=Log)
+def send_alerts(sender, instance=None, created=False, **kwargs):
 
     send_alerts_to_users(instance.alarm_state, instance.client_state)
