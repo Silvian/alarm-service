@@ -21,6 +21,6 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
 class AlarmStateConfigurationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AlarmStateConfiguration
-        fields = ('alarm_name', 'alarm_state',
+        fields = ('alarm_name', 'alarm_status',
                   'last_notified_time', 'client_connected_state',
                   'last_client_connected_time')

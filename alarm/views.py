@@ -2,11 +2,12 @@ import json
 import datetime
 from django.http import HttpResponse
 from django.core import serializers
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 
-from alarm.forms import UserProfileForm
-from alarm.models import UserProfile, Log
+from alarm.forms import UserProfileForm, AlarmStateConfigurationForm
+from alarm.models import UserProfile, Log, AlarmStateConfiguration
 
 
 """Views"""
@@ -91,3 +92,22 @@ def get_logs_date(request):
         data = serializers.serialize("json", logs)
         return HttpResponse(data,
                             content_type='application/json')
+
+
+@login_required
+def get_config_status(request):
+    if request.is_ajax:
+        config = AlarmStateConfiguration.objects.filter(alarm_name=settings.ALARM_NAME)
+        data = serializers.serialize("json", config)
+        return HttpResponse(data,
+                            content_type='application/json')
+
+
+@login_required
+def update_alarm_status(request):
+    if request.method == 'POST':
+        alarm = get_object_or_404(AlarmStateConfiguration, alarm_name=request.POST['alarm_name'])
+        form = AlarmStateConfigurationForm(request.POST or None, instance=alarm)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(json.dumps(SUCCESS_RESPONSE), content_type='application/json')

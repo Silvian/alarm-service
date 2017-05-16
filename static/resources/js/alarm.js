@@ -142,3 +142,15 @@ function clientState(state) {
     }
 
 }
+
+function setCheckbox(checkboxId, value) {
+
+     if(value) {
+        $(checkboxId).prop('checked', true);
+     }
+
+     else {
+        $(checkboxId).prop('checked', false);
+     }
+
+}
