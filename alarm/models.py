@@ -43,7 +43,6 @@ class AlarmStateConfiguration(models.Model):
 
 
 class Log(models.Model):
-
     time_stamp = models.DateTimeField()
     door_state = models.CharField(max_length=1, choices=DOOR_STATUS)
     alarm_state = models.CharField(max_length=1, choices=ALARM_STATUS, blank=True)
@@ -69,7 +68,6 @@ class UserProfile(models.Model):
 
 
 def send_alerts_to_users(alarm_state, client_state):
-
     if alarm_state == '1' or client_state == '0':
         alert = SMSAlert()
         users = UserProfile.objects.all()
@@ -95,5 +93,4 @@ def set_alarm_states(sender,instance, *args, **kwargs):
 
 @receiver(post_save, sender=Log)
 def send_alerts(sender, instance=None, created=False, **kwargs):
-
     send_alerts_to_users(instance.alarm_state, instance.client_state)

@@ -1,39 +1,21 @@
 $(document).ready(function() {
 
-    var alarm_status = 0;
-
+    // get the alarm status first to set the toggle switch.
     getAlarmStatus();
 
-    if($('#alarm-switch').prop("checked") == true){
-        alarm_status = 1;
-    }
-
     $('#alarm-switch').change(function() {
+        var alarm_status = 0;
 
         if(this.checked) {
             alarm_status = 1;
-            $(this).prop("checked", alarm_status);
+            //$(this).prop("checked", true);
         }
         else {
             alarm_status = 0;
-            $(this).prop("checked", alarm_status);
+            //$(this).prop("checked", false);
         }
 
-        /* Send the data using post */
-        var posting = $.post( '/alarm/config/status/update/', {
-                          alarm_name             : $("#alarm-switch").attr("name"),
-                          alarm_status           : alarm_status,
-                          client_connected_state : $("#client-state").attr("name"),
-                          csrfmiddlewaretoken    : getCookie('csrftoken')
-        });
-
-        /* Alerts the results */
-        posting.done(function( data ) {
-            if(data.success) {
-
-            }
-
-        });
+        setAlarmStatus(alarm_status);
 
     });
 
@@ -49,12 +31,46 @@ function getAlarmStatus() {
             if(data && data.length > 0) {
                 $('#alarm-switch').attr('name', data[0].pk);
                 $('#client-state').attr('name', data[0].fields.client_connected_state)
-                setCheckbox('#alarm-switch', data[0].fields.alarm_status);
+
+                var alarm_val = data[0].fields.alarm_status;
+
+                if(alarm_val == 1) {
+                    toggleOn();
+                }
+                else {
+                    toggleOff();
+                }
             }
 
         }
     });
 
+}
+
+function setAlarmStatus(alarm_status) {
+
+    /* Send the data using post */
+    var posting = $.post( '/alarm/config/status/update/', {
+                      alarm_name             : $("#alarm-switch").attr("name"),
+                      alarm_status           : alarm_status,
+                      client_connected_state : $("#client-state").attr("name"),
+                      csrfmiddlewaretoken    : getCookie('csrftoken')
+    });
+
+    /* Alerts the results */
+    posting.done(function(data) {
+        if(data.success) {
+        }
+
+    });
+
+}
+
+function toggleOn() {
+    $('#alarm-switch').bootstrapToggle('on');
+}
+function toggleOff() {
+    $('#alarm-switch').bootstrapToggle('off');
 }
 
 function getClientStatus() {
