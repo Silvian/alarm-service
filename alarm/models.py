@@ -5,7 +5,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from alerts import SMSAlert
-import datetime
+from django.utils import timezone
 
 from django.db import models
 
@@ -53,6 +53,13 @@ class Alert(models.Model):
         default=0
     )
     time = models.DateTimeField(null=True, blank=True)
+
+    def publish(self):
+        self.time = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return "{} - {}".format(self.type, self.time)
 
 
 class Log(models.Model):
