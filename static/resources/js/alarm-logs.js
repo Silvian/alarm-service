@@ -30,16 +30,18 @@ $(document).ready(function(){
 
     });
 
-    $('#select-date').datepicker()
-        .on('changeDate', function(calendar){
-            $('#select-date').datepicker('hide');
+    $('#select-date').datepicker({
+        endDate: 'd',
+        todayHighlight: true,
+    }).on('changeDate', function(calendar){
+        $('#select-date').datepicker('hide');
 
-            if(calendar.date.valueOf() != "") {
-                date = calendar.date.valueOf();
-                date = moment(date).format('YYYY-MM-DD');
-                var logs_url = '/alarm/logs/get?date='+date;
-                logs_table.ajax.url(logs_url).load();
-            }
+        if(calendar.date.valueOf() != "") {
+            date = calendar.date.valueOf();
+            date = moment(date).format('YYYY-MM-DD');
+            var logs_url = '/alarm/logs/get?date='+date;
+            logs_table.ajax.url(logs_url).load();
+        }
 
     });
 
