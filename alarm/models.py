@@ -82,8 +82,8 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 
 
-@receiver(pre_save)
-def set_alarm_states(sender,instance, *args, **kwargs):
+@receiver(pre_save, sender=Log)
+def set_alarm_states(sender, instance, *args, **kwargs):
     instance.alarm_state = AlarmStateConfiguration.objects.get(
                                 alarm_name=settings.ALARM_NAME).alarm_status
 
