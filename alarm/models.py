@@ -42,6 +42,19 @@ class AlarmStateConfiguration(models.Model):
         return self.alarm_name
 
 
+class Alert(models.Model):
+    type = models.CharField(max_length=10, null=False, default='SMS')
+    sent = models.PositiveIntegerField(
+        verbose_name='messages sent',
+        default=0
+    )
+    remaining = models.PositiveIntegerField(
+        verbose_name=' messages remaining',
+        default=0
+    )
+    time = models.DateTimeField(null=True, blank=True)
+
+
 class Log(models.Model):
     time_stamp = models.DateTimeField()
     door_state = models.CharField(max_length=1, choices=DOOR_STATUS)
