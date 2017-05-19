@@ -8,11 +8,11 @@ $(document).ready(function() {
 
         if(this.checked) {
             alarm_status = 1;
-            //$(this).prop("checked", true);
+            $('#alarm-active-alert').show();
         }
         else {
             alarm_status = 0;
-            //$(this).prop("checked", false);
+            $('#alarm-active-alert').hide();
         }
 
         setAlarmStatus(alarm_status);
@@ -33,12 +33,20 @@ function getAlarmStatus() {
                 $('#client-state').attr('name', data[0].fields.client_connected_state)
 
                 var alarm_val = data[0].fields.alarm_status;
+                var client_state = data[0].fields.client_connected_state;
 
                 if(alarm_val == 1) {
                     toggleOn();
                 }
                 else {
                     toggleOff();
+                }
+
+                if(client_state == 0) {
+                    $('#client-disconnected-alert').show();
+                }
+                else {
+                    $('#client-disconnected-alert').hide();
                 }
             }
 
@@ -68,9 +76,11 @@ function setAlarmStatus(alarm_status) {
 
 function toggleOn() {
     $('#alarm-switch').bootstrapToggle('on');
+    $('#alarm-active-alert').show();
 }
 function toggleOff() {
     $('#alarm-switch').bootstrapToggle('off');
+    $('#alarm-active-alert').hide();
 }
 
 function getClientStatus() {
