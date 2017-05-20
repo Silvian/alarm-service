@@ -1,0 +1,52 @@
+{% extends "alarm/layout.html" %}
+
+{% block heading %}
+
+  <div>
+    <br/>
+    <h2><i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i> Alerts</h2>
+  </div>
+
+{% endblock %}
+
+{% block body %}
+
+  <br/>
+
+  <div id="alerts-empty" class="alert alert-info" role="alert" hidden>
+      <i class="fa fa-info fa-fw" aria-hidden="true"></i>
+      No alerts status to display
+  </div>
+
+  <div id="alerts-error" class="alert alert-danger" role="alert" hidden>
+      <i class="fa fa-exclamation-circle fa-fw" aria-hidden="true"></i>
+      <span id="error-msg">Error:</span>
+  </div>
+
+  <div class="well">
+
+      <table class="table table-striped table-hover" id="alerts">
+      <thead>
+        <tr>
+          <th>Last sent</th>
+          <th>Type</th>
+          <th>Sent</th>
+          <th>Remaining</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+  </div>
+
+{% endblock %}
+
+{% block jsfiles %}
+
+{% load staticfiles %}
+<script src="{% static 'resources/js/alarm.js' %}"></script>
+<script src="{% static 'resources/js/alarm-alerts.js' %}"></script>
+
+{% endblock %}

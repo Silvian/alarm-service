@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from views import UserProfileViewSet, LogViewSet, AlarmStateConfigurationSet
+from views import UserProfileViewSet, LogViewSet, AlertViewSet, AlarmStateConfigurationSet
 
 
 """ Routers provide an easy way of automatically determining the URL conf. """
@@ -9,6 +9,7 @@ from views import UserProfileViewSet, LogViewSet, AlarmStateConfigurationSet
 router = routers.DefaultRouter()
 router.register(r'users', UserProfileViewSet)
 router.register(r'log', LogViewSet)
+router.register(r'alerts', AlertViewSet)
 router.register(r'configuration', AlarmStateConfigurationSet)
 
 urlpatterns = [

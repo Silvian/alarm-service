@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 
 from alarm.forms import UserProfileForm, AlarmStateConfigurationForm
-from alarm.models import UserProfile, Log, AlarmStateConfiguration
+from alarm.models import UserProfile, Log, Alert, AlarmStateConfiguration
 
 
 """Views"""
@@ -29,6 +29,11 @@ def logs_view(request):
 @login_required
 def users_view(request):
     return render(request, "alarm/users.html")
+
+
+@login_required
+def alerts_view(request):
+    return render(request, "alarm/alerts.html")
 
 
 @login_required
@@ -111,3 +116,12 @@ def update_alarm_status(request):
         if form.is_valid():
             form.save()
             return HttpResponse(json.dumps(SUCCESS_RESPONSE), content_type='application/json')
+
+
+@login_required
+def get_alerts_status(request):
+    if request.is_ajax:
+        alerts = Alert.objects.latest()
+        data = serializers.serialize("json", [alerts])
+        return HttpResponse(data,
+                            content_type='application/json')

@@ -13,5 +13,7 @@ urlpatterns = [
     url(r'^logs/', views.logs_view, name='logs'),
     url(r'^config/status/get/', views.get_config_status, name='alarm_status_get'),
     url(r'^config/status/update/', views.update_alarm_status, name='alarm_status_update'),
+    url(r'^alerts/latest/', views.get_alerts_status, name='alerts_latest_status'),
+    url(r'^alerts/', views.alerts_view, name='alerts'),
     url(r'^$', views.index_view, name='dashboard'),
 ]

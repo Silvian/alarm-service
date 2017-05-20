@@ -1,4 +1,4 @@
-from alarm.models import UserProfile, Log, AlarmStateConfiguration
+from alarm.models import UserProfile, Log, Alert, AlarmStateConfiguration
 from rest_framework import serializers
 
 
@@ -16,6 +16,12 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Log
         fields = ('time_stamp', 'door_state')
+
+
+class AlertSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Alert
+        fields = ('type', 'sent', 'remaining', 'time')
 
 
 class AlarmStateConfigurationSerializer(serializers.HyperlinkedModelSerializer):

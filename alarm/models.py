@@ -28,12 +28,32 @@ CLIENT_STATUS = (
 
 
 class AlarmStateConfiguration(models.Model):
-    alarm_name = models.CharField(primary_key=True, max_length=20, null=False)
-    alarm_status = models.CharField(max_length=1, choices=ALARM_STATUS)
-    last_notified_time = models.DateTimeField(null=True, blank=True)
-    client_connected_state = models.CharField(max_length=1, choices=CLIENT_STATUS)
-    last_client_connected_time = models.DateTimeField(null=True, blank=True)
-    alarm_message = models.TextField(null=True, blank=True)
+
+    alarm_name = models.CharField(
+        primary_key=True,
+        max_length=20,
+        null=False
+    )
+    alarm_status = models.CharField(
+        max_length=1,
+        choices=ALARM_STATUS
+    )
+    last_notified_time = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+    client_connected_state = models.CharField(
+        max_length=1,
+        choices=CLIENT_STATUS
+    )
+    last_client_connected_time = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+    alarm_message = models.TextField(
+        null=True,
+        blank=True
+    )
 
     def publish(self):
         self.save()
@@ -43,7 +63,12 @@ class AlarmStateConfiguration(models.Model):
 
 
 class Alert(models.Model):
-    type = models.CharField(max_length=10, null=False, default='SMS')
+
+    type = models.CharField(
+        max_length=10,
+        null=False,
+        default='SMS'
+    )
     sent = models.PositiveIntegerField(
         verbose_name='messages sent',
         default=0
@@ -52,33 +77,63 @@ class Alert(models.Model):
         verbose_name=' messages remaining',
         default=0
     )
-    time = models.DateTimeField(null=True, blank=True)
+    time = models.DateTimeField()
+
+    class Meta:
+        get_latest_by = "time"
 
     def publish(self):
         self.time = timezone.now()
         self.save()
 
     def __str__(self):
-        return "{} - {}".format(self.type, self.time)
+        return "{} - {}".format(
+            self.type, self.time
+        )
 
 
 class Log(models.Model):
     time_stamp = models.DateTimeField()
-    door_state = models.CharField(max_length=1, choices=DOOR_STATUS)
-    alarm_state = models.CharField(max_length=1, choices=ALARM_STATUS, blank=True)
-    client_state = models.CharField(max_length=1, choices=CLIENT_STATUS, blank=True)
+    door_state = models.CharField(
+        max_length=1,
+        choices=DOOR_STATUS
+    )
+    alarm_state = models.CharField(
+        max_length=1,
+        choices=ALARM_STATUS,
+        blank=True
+    )
+    client_state = models.CharField(
+        max_length=1,
+        choices=CLIENT_STATUS,
+        blank=True
+    )
 
     def publish(self):
         self.save()
 
     def __str__(self):
-        return self.time_stamp.strftime(settings.DATE_TIME_FORMAT)
+        return self.time_stamp.strftime(
+            settings.DATE_TIME_FORMAT
+        )
 
 
 class UserProfile(models.Model):
-    name = models.CharField(max_length=200, null=False, blank=False)
-    email = models.CharField(max_length=200, null=False, blank=False)
-    mobile = models.CharField(max_length=200, null=False, blank=False)
+    name = models.CharField(
+        max_length=200,
+        null=False,
+        blank=False
+    )
+    email = models.CharField(
+        max_length=200,
+        null=False,
+        blank=False
+    )
+    mobile = models.CharField(
+        max_length=200,
+        null=False,
+        blank=False
+    )
 
     def publish(self):
         self.save()
