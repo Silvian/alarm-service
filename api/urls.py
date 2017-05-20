@@ -8,7 +8,7 @@ from views import UserProfileViewSet, LogViewSet, AlertViewSet, AlarmStateConfig
 
 router = routers.DefaultRouter()
 router.register(r'users', UserProfileViewSet)
-router.register(r'log', LogViewSet)
+router.register(r'logs', LogViewSet)
 router.register(r'alerts', AlertViewSet)
 router.register(r'configuration', AlarmStateConfigurationSet)
 
