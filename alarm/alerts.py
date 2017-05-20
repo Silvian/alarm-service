@@ -13,8 +13,10 @@ class SMSAlert:
         self.api_token = api_token
 
     def send_alert(self, message, mobile):
-        requests.post(self.service_url, {
+        response = requests.post(self.service_url, {
             'phone': mobile,
             'message': message,
             'key': self.api_token,
-        })
+        }).json()
+
+        return response

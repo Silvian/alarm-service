@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     $('#alerts-empty').hide();
+    $('#alerts-error').hide();
     $('#alerts tbody').html("");
 
     $.ajax({
@@ -10,7 +11,7 @@ $(document).ready(function() {
         success: function (data) {
             if(data && data.length > 0) {
                 $('#users-list tbody').html("");
-
+                var remaining = 0;
                 $.each(data, function(i, item) {
                     var alert = item.fields;
                     $('#alerts tbody').append('<tr>' +
@@ -19,7 +20,14 @@ $(document).ready(function() {
                         '<td>' + htmlEntities(alert.sent) + '</td>' +
                         '<td>' + htmlEntities(alert.remaining) + '</td>' +
                     '</tr>');
+
+                    remaining = alert.remaining;
                 });
+
+                if(remaining < 10) {
+                    $('#alerts-error').html(remaining+" SMS alerts remaining!");
+                    $('#alerts-error').show();
+                }
 
             }
 

@@ -121,7 +121,10 @@ def update_alarm_status(request):
 @login_required
 def get_alerts_status(request):
     if request.is_ajax:
-        alerts = Alert.objects.latest()
-        data = serializers.serialize("json", [alerts])
+        if Alert.objects.all():
+            alerts = Alert.objects.latest()
+            data = serializers.serialize("json", [alerts])
+        else:
+            data = serializers.serialize("json", [])
         return HttpResponse(data,
                             content_type='application/json')

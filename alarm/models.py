@@ -148,13 +148,38 @@ class UserProfile(models.Model):
         return self.name
 
 
+def _log_alert(response):
+
+    sent = 1
+
+    if Alert.objects.all():
+        last_alert = Alert.objects.latest()
+        sent = last_alert.sent + 1
+
+    text_id = 0
+    remaining = 0
+
+    if response['success']:
+        text_id = response['textId']
+        remaining = response['quotaRemaining']
+
+    new_alert = Alert(type='SMS',
+                      sent=sent,
+                      remaining=remaining,
+                      message_id=text_id,
+                      )
+
+    new_alert.publish()
+
+
 def send_alerts_to_users(alarm_state, client_state):
     if alarm_state == '1' or client_state == '0':
         alert = SMSAlert()
         users = UserProfile.objects.all()
         for user in users:
-            alert.send_alert(AlarmStateConfiguration.objects.get(
+            response = alert.send_alert(AlarmStateConfiguration.objects.get(
                 alarm_name=settings.ALARM_NAME).alarm_message, user.mobile)
+            _log_alert(response)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
