@@ -106,6 +106,13 @@ DATABASES = {
     }
 }
 
+if 'DATABASE_HOST' in os.environ:
+    DATABASES['default']['HOST'] = os.getenv('DATABASE_HOST')
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+    DATABASES['default']['NAME'] = os.getenv('DATABASE_NAME')
+    DATABASES['default']['USER'] = os.getenv('DATABASE_USER')
+    DATABASES['default']['PASSWORD'] = os.getenv('DATABASE_PASSWORD')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -178,3 +185,9 @@ ALARM_NAME = 'primary'
 SMS_URL = 'http://textbelt.com/text'
 SMS_TOKEN = 'textbelt'
 
+# Load local environment specific settings
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
