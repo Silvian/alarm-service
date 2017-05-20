@@ -74,8 +74,14 @@ class Alert(models.Model):
         default=0
     )
     remaining = models.PositiveIntegerField(
-        verbose_name=' messages remaining',
+        verbose_name='messages remaining',
         default=0
+    )
+    message_id = models.CharField(
+        verbose_name='message ID',
+        max_length=200,
+        null=True,
+        blank=True,
     )
     time = models.DateTimeField()
 
