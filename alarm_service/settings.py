@@ -186,7 +186,6 @@ SMS_URL = 'http://textbelt.com/text'
 SMS_TOKEN = 'textbelt'
 
 # Load local environment specific settings
-
 try:
     from local_settings import *
 except ImportError:
