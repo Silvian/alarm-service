@@ -51,8 +51,8 @@ class AlarmStateConfiguration(models.Model):
         blank=True
     )
     alarm_message = models.TextField(
-        null=True,
-        blank=True
+        null=False,
+        blank=False
     )
 
     def publish(self):
