@@ -8,11 +8,9 @@ $(document).ready(function() {
 
         if(this.checked) {
             alarm_status = 1;
-            $('#alarm-active-alert').show();
         }
         else {
             alarm_status = 0;
-            $('#alarm-active-alert').hide();
         }
 
         setAlarmStatus(alarm_status);
@@ -76,11 +74,9 @@ function setAlarmStatus(alarm_status) {
 
 function toggleOn() {
     $('#alarm-switch').bootstrapToggle('on');
-    $('#alarm-active-alert').show();
 }
 function toggleOff() {
     $('#alarm-switch').bootstrapToggle('off');
-    $('#alarm-active-alert').hide();
 }
 
 function getClientStatus() {
